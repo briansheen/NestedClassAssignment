@@ -12,13 +12,12 @@ public class Widget {
     private String name;
     private String type;
     private int id;
-    List<Attachment> attachments = new ArrayList<>();
+    private List<Attachment> attachments = new ArrayList<>();
 
     public Widget(String name, String type) {
         this.name = name;
         this.type = type;
-        ++widgetCounter;
-        this.id = widgetCounter;
+        this.id = ++widgetCounter;
     }
 
     public int getId() {

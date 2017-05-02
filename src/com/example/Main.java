@@ -32,8 +32,7 @@ public class Main {
         json = widgetService.getWidget(3);
         System.out.println(json);
 
-        boolean attachment;
-        attachment = widgetService.addAttachment(1,"Analog", "Skin");
+        boolean attachment = widgetService.addAttachment(1,"Analog", "Skin");
         System.out.println("attachment added to Widget 1: " + attachment);
         widgetService.addAttachment(1,"Digital", "Skin");
         widgetService.addAttachment(3,"Austin", "Local Weather");

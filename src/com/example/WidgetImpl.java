@@ -11,7 +11,9 @@ import java.util.List;
  */
 public class WidgetImpl implements WidgetService {
 
-    List<Widget> widgets = new ArrayList<>();
+    private List<Widget> widgets = new ArrayList<>();
+    private ObjectMapper mapper = new ObjectMapper();
+
 
     @Override
     public int createWidget(String name, String type) {
@@ -22,34 +24,37 @@ public class WidgetImpl implements WidgetService {
 
     @Override
     public String listWidgets() throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        String json = mapper.writeValueAsString(widgets);
-        return json;
+        return mapper.writeValueAsString(widgets);
     }
 
     @Override
     public String getWidget(int id) throws IOException {
-        for(Widget w : widgets){
-            if(w.getId() == id){
-                ObjectMapper mapper = new ObjectMapper();
-                String json = mapper.writeValueAsString(w);
-                return json;
-            }
+        Widget widget = findWidgetById(id);
+        if(widget != null){
+            return mapper.writeValueAsString(widget);
         }
         return null;
     }
 
     @Override
     public boolean addAttachment(int id, String name, String type) {
-        for (Widget w : widgets) {
-            if (w.getId() == id) {
-                Widget.Attachment attachment = new Widget.Attachment();
-                attachment.setName(name);
-                attachment.setType(type);
-                w.getAttachments().add(attachment);
-                return true;
-            }
+        Widget widget = findWidgetById(id);
+        if(widget != null){
+          Widget.Attachment attachment = new Widget.Attachment();
+          attachment.setName(name);
+          attachment.setType(type);
+          widget.getAttachments().add(attachment);
+          return true;
         }
         return false;
+    }
+
+    private Widget findWidgetById (int id){
+      for(Widget w : widgets){
+          if(w.getId() == id){
+              return w;
+          }
+      }
+      return null;
     }
 }
